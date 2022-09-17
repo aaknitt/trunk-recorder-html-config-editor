@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<!-- saved from url=(0052)https://json-editor.github.io/json-editor/basic.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <title>trunk-recorder config editor</title>
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@json-editor/json-editor@latest/dist/jsoneditor.min.js"></script>
+    <script type="text/javascript" src="settings_and_schema.js"></script>
+  <style id="theme-default"></style><style id="theme-html"></style></head>
+  <style>
+      .container {
+        max-width:960px;
+        margin: 0 auto
+      }
+  </style>
+  <body>
+    <h1>Configuration JSON File Editor</h1>
+    <button id="buttonOpen">Open Config JSON File</button>
+    <button id="buttonSaveAs">Save Config JSON File As</button>
+    <div id="editor_holder" data-theme="html" class="je-ready"></div>    
+    <script>
+
+      // Initialize the editor with a JSON schema
+      var editor = new JSONEditor(document.getElementById('editor_holder'),editor_config);
+      //editor.setValue({properties:{showAdvanced:true}});
+      // Hook up the submit button to log to the console
+      editor.on('ready',() => {
+        // Now the api methods will be available
+        //editor.editors.root.setValue(my_config_data, true)  //https://github.com/json-editor/json-editor/issues/610#issuecomment-728758100
+      });
+
+      let fileHandle;
+      document.getElementById('buttonOpen').addEventListener('click', async () => {
+        // Destructure the one-element array.
+        [fileHandle] = await window.showOpenFilePicker({
+          startIn:'desktop',
+          types:[{description: 'JSON Files',accept: {'text/json': ['.json']}}],
+          excludeAcceptAllOption: true
+        });
+        // Use the file handle from the OpenFilePicker to read in the JSON data to the editor
+        const file = await fileHandle.getFile();
+        const contents = await file.text();
+        my_config_data = JSON.parse(contents);
+        editor.editors.root.setValue(my_config_data, true);
+        //console.log(JSON.parse(contents));
+      });
+      
+      document.getElementById('buttonSaveAs').addEventListener('click', async () => {
+          const options = {
+            types: [
+              {
+                description: 'JSON Files',
+                accept: {
+                  'text/json': ['.json'],
+                },
+              },
+            ],
+          };
+          const handle = await window.showSaveFilePicker(options);
+          write_contents = JSON.stringify(editor.getValue(),null,4);
+          // Create a FileSystemWritableFileStream to write to.
+          const writable = await handle.createWritable();
+          // Write the contents of the file to the stream.
+          await writable.write(write_contents);
+          // Close the file and write the contents to disk.
+          await writable.close();
+        //}
+    });
+    </script>
+</body></html>
