@@ -167,7 +167,7 @@ editor_config = {
         }
       },
       "sources": {
-        "title": "Sources",
+        "title": "RF Sources",
         "type": "array",
         "format": "array",
         "items": {
@@ -241,7 +241,7 @@ editor_config = {
         }
       },
       "systems": {
-        "title": "Systems",
+        "title": "Radio Systems",
         "type": "array",
         "format": "array",
         "items": {
@@ -585,7 +585,7 @@ editor_config = {
         }
       },
       "plugins": {
-        "title": "Plugins",
+        "title": "trunk-recorder Plugins",
         "type": "array",
         "items": {
           "title": "Plugin",
