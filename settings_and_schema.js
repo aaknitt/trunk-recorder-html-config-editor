@@ -15,10 +15,6 @@ editor_config = {
         "type": "boolean",
         "default": false
       },
-      "iar_api_key":{
-         "title":"IamResponding API Key",
-         "type":"string"
-      },
       "ver": {
         "title": "Config File Version",
         "type": "number",
