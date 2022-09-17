@@ -1,10 +1,9 @@
 # trunk-recorder-html-config-editor
-
-![screenshot](/images/screenshot.PNG)
-
 A browser-based configuration editor for [trunk-recorder](https://github.com/robotastic/trunk-recorder) JSON config files.  Can be opened by a browser on computer that trunk-recorder is running with no need for a web server (though it does need to be online to pull in required javascript libraries used by the GUI).  
 
 Relies heavily on the [json-editor project](https://github.com/json-editor/json-editor) and the javascript [file system access API](https://web.dev/file-system-access/)
+
+![screenshot](/images/screenshot.PNG)
 
 ## Usage
 
