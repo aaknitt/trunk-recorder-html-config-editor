@@ -28,7 +28,19 @@
       // Hook up the submit button to log to the console
       editor.on('ready',() => {
         // Now the api methods will be available
-        //editor.editors.root.setValue(my_config_data, true)  //https://github.com/json-editor/json-editor/issues/610#issuecomment-728758100
+      });
+
+      editor.on('change',()=> {
+
+        /*  example to change a field when another field changes to keep the values linked
+        var arr = editor.getValue().systems;
+        arr.forEach(function (item, index) {
+          item.talkgroupsFile = item.shortName + ".csv";
+          const temp = editor.getEditor('root.systems.' + index + '.talkgroupsFile');
+          temp.setValue(item.shortName + ".csv");
+        });
+        */
+
       });
 
       let fileHandle;

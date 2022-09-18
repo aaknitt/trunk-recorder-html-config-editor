@@ -13,6 +13,7 @@ editor_config = {
       "showAdvanced": {
         "title": "Show Advanced Settings",
         "type": "boolean",
+        "format":"checkbox",
         "default": false
       },
       "ver": {
@@ -41,6 +42,7 @@ editor_config = {
       "logFile": {
         "title": "Save Log File",
         "type": "boolean",
+        "format":"checkbox",
         "default": false
       },
       "frequencyFormat": {
@@ -83,6 +85,7 @@ editor_config = {
       },
       "statusAsString": {
         "type": "boolean",
+        "format":"checkbox",
         "default": true,
         "options": {
           "dependencies": {
@@ -102,6 +105,7 @@ editor_config = {
       "broadcastSignals": {
         "title": "Broadcast Decoded Signals to Status Server",
         "type": "boolean",
+        "format":"checkbox",
         "default": true,
         "options": {
           "dependencies": {
@@ -129,6 +133,7 @@ editor_config = {
       "debugRecorder": {
         "title": "Attach debug recorder to each source",
         "type": "boolean",
+        "format":"checkbox",
         "default": true,
         "options": {
           "dependencies": {
@@ -159,6 +164,7 @@ editor_config = {
       "audioStreaming": {
         "title": "Enable Live Audio Streaming",
         "type": "boolean",
+        "format":"checkbox",
         "default": false,
         "options": {
           "dependencies": {
@@ -230,6 +236,7 @@ editor_config = {
             "agc": {
               "title": "Use SDR Automatic Gain Control (AGC)",
               "type": "boolean",
+              "format":"checkbox",
               "default": false,
               "options": {
                 "dependencies": {
@@ -353,6 +360,7 @@ editor_config = {
             "compressWav": {
               "title": "Compress WAV files to M4A",
               "type": "boolean",
+              "format":"checkbox",
               "default": true,
               "options": {
                 "dependencies": {
@@ -367,11 +375,13 @@ editor_config = {
             "audioArchive": {
               "title": "Save Audio Files After Upload",
               "type": "boolean",
+              "format":"checkbox",
               "default": true
             },
             "transmissionArchive": {
               "title": "Save Individual Transmission Files After Upload",
               "type": "boolean",
+              "format":"checkbox",
               "default": false,
               "options": {
                 "dependencies": {
@@ -382,6 +392,7 @@ editor_config = {
             "callLog": {
               "title": "Save call JSON data after upload",
               "type": "boolean",
+              "format":"checkbox",
               "default": false,
               "options": {
                 "dependencies": {
@@ -416,21 +427,25 @@ editor_config = {
             "recordUnknown": {
               "title": "Record Unknown Talkgroups",
               "type": "boolean",
+              "format":"checkbox",
               "default": true
             },
             "recordUUVCalls": {
               "title": "Record P25 Unit to Unit Calls",
               "type": "boolean",
+              "format":"checkbox",
               "default": true
             },
             "hideEncrypted": {
               "title": "Hide Encrypted Talkgroup Log Entries",
               "type": "boolean",
+              "format":"checkbox",
               "default": false
             },
             "hideUnknownTalkgroups": {
               "title": "Hide Unknown Talkgroup Log Entries",
               "type": "boolean",
+              "format":"checkbox",
               "default": false
             },
             "minDuration": {
@@ -536,7 +551,8 @@ editor_config = {
             "decodeMDC": {
               "title": "Enable MDC1200 Decoder",
               "type": "boolean",
-              "default": "false",
+              "format":"checkbox",
+              "default": false,
               "options": {
                 "dependencies": {
                   "type": [
@@ -548,7 +564,8 @@ editor_config = {
             "decodeFSync": {
               "title": "Enable FleetSync Decoder",
               "type": "boolean",
-              "default": "false",
+              "format":"checkbox",
+              "default": false,
               "options": {
                 "dependencies": {
                   "type": [
@@ -560,7 +577,8 @@ editor_config = {
             "decodeStar": {
               "title": "Enable Star Decoder",
               "type": "boolean",
-              "default": "false",
+              "format":"checkbox",
+              "default": false,
               "options": {
                 "dependencies": {
                   "type": [
@@ -572,7 +590,8 @@ editor_config = {
             "decodeTPS": {
               "title": "Enable Motorola Tactical Public Safety Decoder",
               "type": "boolean",
-              "default": "false",
+              "format":"checkbox",
+              "default": false,
               "options": {
                 "dependencies": {
                   "type": [
@@ -640,11 +659,13 @@ editor_config = {
                       "sendTGID": {
                         "title": "Add TGID to audio stream",
                         "type": "boolean",
+                        "format":"checkbox",
                         "default": false
                       },
                       "useTCP": {
                         "title": "Stream via TCP instead of UDP",
                         "type": "boolean",
+                        "format":"checkbox",
                         "default": false
                       }
                     }
