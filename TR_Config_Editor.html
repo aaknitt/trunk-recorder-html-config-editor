@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
     <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@json-editor/json-editor@latest/dist/jsoneditor.min.js"></script>
-    <script type="text/javascript" src="settings_and_schema.js"></script>
+    <script type="text/javascript" src="iar_settings_and_schema.js"></script>
   <style id="theme-default"></style><style id="theme-html"></style></head>
   <style>
       .container {
@@ -29,18 +29,20 @@
       editor.on('ready',() => {
         // Now the api methods will be available
       });
+      var previous_source_array_length = 0;
 
       editor.on('change',()=> {
-
-        /*  example to change a field when another field changes to keep the values linked
-        var arr = editor.getValue().systems;
-        arr.forEach(function (item, index) {
-          item.talkgroupsFile = item.shortName + ".csv";
-          const temp = editor.getEditor('root.systems.' + index + '.talkgroupsFile');
-          temp.setValue(item.shortName + ".csv");
-        });
-        */
-
+        //Auto-increment RTL device name(index) when a new Source is added
+        var arr = editor.getValue().sources;
+        if(arr.length > previous_source_array_length) {
+          arr.forEach(function (item, index) {
+            if (index >= previous_source_array_length){
+              const temp = editor.getEditor('root.sources.' + index + '.device');
+              temp.setValue("rtl="+index.toString());
+            }
+          });
+          previous_source_array_length++;
+        }
       });
 
       let fileHandle;
