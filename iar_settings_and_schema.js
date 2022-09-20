@@ -699,6 +699,16 @@ editor_config = {
           }
         }
       },
+      "source_autogen_button":{
+        "type": "button",
+          "title": "Auto Generate RF Source Parameters From System Channels",
+          "options": {
+            "button": {
+              "action": "autoGenSourceParams",
+              "validated": false
+            }
+          }
+      },
       "sources": {
         "title": "RF Sources",
         "type": "array",

@@ -23,7 +23,127 @@
     <script>
 
       // Initialize the editor with a JSON schema
+      JSONEditor.defaults.callbacks = {
+        "button" : {
+          "autoGenSourceParams" : function (jseditor, e) {
+            var system_array = editor.getValue().systems;
+            var all_freqs_array = [];
+            system_array.forEach(function(item,index){
+              all_freqs_array = all_freqs_array.concat(item.control_channels);
+              all_freqs_array = all_freqs_array.concat(item.voice_channels);
+            });
+            all_freqs_array = [...new Set(all_freqs_array)];  //remove duplicates
+            all_freqs_array = all_freqs_array.sort(function (a, b) {  return a - b;  });  //sort numerically
+            console.log(all_freqs_array);
+            CHANNEL_BW = 25000
+            SDR_BW = 2400000
+            half_spectrum_bandwidth = CHANNEL_BW / 2;
+
+            // get our edge freqs
+            lower_freq = all_freqs_array[0];
+            upper_freq = all_freqs_array[all_freqs_array.length-1];
+
+            lower_edge = lower_freq - half_spectrum_bandwidth;
+            upper_edge = upper_freq + half_spectrum_bandwidth;
+            console.log(lower_edge);
+            console.log(upper_edge);
+            
+            radio_high_freq = 0;
+            indexed_channels = 0;
+            radio_index = 1;
+            //System Channel count minux one for zero index
+            channels = all_freqs_array.length;
+
+            //Dict to hold our results
+            radio_matrixes = {};
+
+            //End of the useable radio range accounting for the half_spectrum_bandwidth
+            max_sdr_useable_freq = (lower_edge  + SDR_BW - half_spectrum_bandwidth);
+
+            //While loop to track if we have indexed all channels to radios
+            radio_lower_freq = lower_edge;
+            while (indexed_channels < channels){
+              //Channel Count
+              sdr_channel_count = 0;
+              //Check if frquencies are near each other and assign to radios
+
+              all_freqs_array.forEach(function(freq,index){
+                //If our frequency is within the bandwidth tolerance of the SDR
+                if ((freq > radio_lower_freq) && (freq < max_sdr_useable_freq)){
+                    //Checks if we have created the radio in the results dict yet (Avoids a key error)
+                    if (!(radio_index in radio_matrixes)){
+                        radio_matrixes[radio_index] = {};
+                        radio_matrixes[radio_index]["freqs"] = [];
+                    }
+                    //Add matched frequency to our radio's list
+                    radio_matrixes[radio_index]["freqs"].push(freq);
+                    //set last indexed Freq to our loops value
+                    radio_high_freq = freq;
+
+                    //Increment our tracker counts for radio channels / Channels accounted for
+                    sdr_channel_count += 1;
+                    indexed_channels += 1;
+                }
+              });
+
+              //Set high and low and center and channel counts values for each radio
+              radio_matrixes[radio_index]["high"] = radio_high_freq;
+              radio_matrixes[radio_index]["low"] = radio_lower_freq;
+              radio_matrixes[radio_index]["channels"] = radio_matrixes[radio_index]["freqs"].length;
+              
+              //calculate_center
+              center = (radio_lower_freq + radio_high_freq)/2;
+              rounding_change = 10000.0 // in HZ
+              bad_center = false;
+              all_freqs_array.forEach(function(freq,index){
+                //Check if our center freq is too close
+                if (freq - rounding_change <= center <= freq + rounding_change){
+                  bad_center = true;
+                }
+                if (bad_center){
+                  center = center + rounding_change;
+                }
+              });
+              
+              radio_matrixes[radio_index]["center"] = center;
+
+              //get the total bandwidth needing covered
+              radio_sample_range = (radio_high_freq - radio_lower_freq) + (half_spectrum_bandwidth * 2);
+
+
+              if (radio_sample_range < 900000){
+                diff = 900000 - radio_sample_range;
+                radio_sample_range += diff;
+              }
+
+              //Check if the sample rate is valid
+              is_divisable_by_eight = radio_sample_range % 8 == 0;
+
+              //Make the sample rate divisable by eight
+              while (!is_divisable_by_eight){
+                radio_sample_range += 1;
+                is_divisable_by_eight = radio_sample_range % 8 == 0;
+              }
+
+
+              radio_matrixes[radio_index]["sample_rate"] = radio_sample_range;
+              // increment our radios - ie The next channel is beyond our bandwidth
+              radio_index += 1
+
+              //Check we havent reacherd the end of our channels
+              if (indexed_channels < channels){
+                //Set to the next freq in the list minus half the spectrum BW
+                radio_lower_freq = all_freqs_array[indexed_channels] - half_spectrum_bandwidth;
+                // Set to the max sdr reciveable bandwidth from the radio_lower_freq
+                max_sdr_useable_freq = (radio_lower_freq + half_spectrum_bandwidth) + SDR_BW;
+              }
+            }
+					  console.log(radio_matrixes);
+          }
+        }
+      }
       var editor = new JSONEditor(document.getElementById('editor_holder'),editor_config);
+
       //editor.setValue({properties:{showAdvanced:true}});
       // Hook up the submit button to log to the console
       editor.on('ready',() => {
