@@ -29,10 +29,14 @@
             var all_freqs_array = [];
             system_array.forEach(function(item,index){
               if (item.control_channels != ''){
-                all_freqs_array = all_freqs_array.concat(item.control_channels);
+                item.control_channels.forEach(function(freq,index){
+                  all_freqs_array = all_freqs_array.concat(Math.round(freq*1e6));
+                });
               }
               if (item.voice_channels != ''){
-                all_freqs_array = all_freqs_array.concat(item.voice_channels);
+                item.voice_channels.forEach(function(freq,index){
+                  all_freqs_array = all_freqs_array.concat(Math.round(freq*1e6));
+                });
               }
             });
             all_freqs_array = [...new Set(all_freqs_array)];  //remove duplicates
@@ -165,6 +169,29 @@
               radio_matrixes[i]["sample_rate"] = radio_sample_range;
             });
             console.log(radio_matrixes);
+            var arr = editor.getValue().sources;
+            //source_array = [];
+            const temp = editor.getEditor('root.sources');
+            //temp.deleteAllRows();
+			console.log(temp.getValue());
+            for (i in radio_matrixes){
+              source_dict = {};
+              console.log(temp.getValue().length);
+              console.log(i);
+              if (temp.getValue().length < parseInt(i)+1){
+                temp.addRow();
+                console.log("adding row");
+              }
+              console.log(radio_matrixes[i]);
+			  editor.getEditor('root.sources.' + i + '.rate').setValue(radio_matrixes[i]['sample_rate']);
+              editor.getEditor('root.sources.' + i + '.center').setValue(radio_matrixes[i]['center']);
+              editor.getEditor('root.sources.' + i + '.device').setValue('rtl='+i.toString());
+              editor.getEditor('root.sources.' + i + '.digitalRecorders').setValue(radio_matrixes[i]['channels']);
+              //source_array.push(source_dict);
+            }
+            //console.log(source_array);
+            
+            //temp.setValue(source_array);
           }
         }
       }
@@ -203,6 +230,50 @@
         const file = await fileHandle.getFile();
         const contents = await file.text();
         my_config_data = JSON.parse(contents);
+        //Convert fields that are stored in units of Hz to more friendly MHz
+        if ('systems' in my_config_data){
+          my_config_data['systems'].forEach(function (system, index) {
+            if ('control_channels' in system){
+              temp = [];
+              system['control_channels'].forEach(function (freq, index) {
+                temp.push(parseFloat(freq*1e-6).toFixed(4));
+              });
+              system['control_channels'] = temp;
+            }
+            if ('voice_channels' in system){
+              temp = [];
+              system['voice_channels'].forEach(function (freq, index) {
+                temp.push(parseFloat(freq*1e-6).toFixed(4));
+              });
+              system['voice_channels'] = temp;
+            }
+            if ('channels' in system){
+              temp = [];
+              system['channels'].forEach(function (freq, index) {
+                temp.push(parseFloat(freq*1e-6).toFixed(4));
+              });
+              system['channels'] = temp;
+            }
+            if ('bandplanBase' in system){
+              system['bandplanBase'] =  parseFloat(system['bandplanBase']*1e-6).toFixed(4);
+            }
+            if ('bandplanHigh' in system){
+              system['bandplanHigh'] =  parseFloat(system['bandplanHigh']*1e-6).toFixed(4);
+            }
+            if ('bandplanSpacing' in system){
+              system['bandplanSpacing'] =  parseFloat(system['bandplanSpacing']*1e-6).toFixed(4);
+            }
+            if ('bandplanOffset' in system){
+              system['bandplanOffset'] =  parseFloat(system['bandplanOffset']*1e-6).toFixed(4);
+            }
+          });
+        }
+        if ('sources' in my_config_data){
+          my_config_data['sources'].forEach(function (source, index) {
+            source['center'] = parseFloat(source['center']*1e-6).toFixed(4);
+            source['rate'] = parseFloat(source['rate']*1e-6).toFixed(4);
+          });
+        }
         editor.editors.root.setValue(my_config_data, true);
         //console.log(JSON.parse(contents));
       });
@@ -219,7 +290,53 @@
             ],
           };
           const handle = await window.showSaveFilePicker(options);
-          write_contents = JSON.stringify(editor.getValue(),null,4);
+          write_contents = editor.getValue();
+          //Convert fields that are stored in units of Hz to more friendly MHz
+          if ('systems' in write_contents){
+            write_contents['systems'].forEach(function (system, index) {
+              if ('control_channels' in system && system['control_channels'] != '' && typeof system['control_channels']!== 'undefined'){
+                temp = [];
+                system['control_channels'].forEach(function (freq, index) {
+                  temp.push(Math.round(freq*1e6));
+                });
+                system['control_channels'] = temp;
+              }
+              if ('voice_channels' in system && system['voice_channels'] != '' && typeof system['voice_channels']!== 'undefined'){
+                temp = [];
+                system['voice_channels'].forEach(function (freq, index) {
+                  temp.push(Math.round(freq*1e6));
+                });
+                system['voice_channels'] = temp;
+              }
+              if ('channels' in system && system['channels'] != '' && typeof system['channels']!== 'undefined'){
+                console.log(system['channels']);
+                temp = [];
+                system['channels'].forEach(function (freq, index) {
+                  temp.push(Math.round(freq*1e6));
+                });
+                system['channels'] = temp;
+              }
+              if ('bandplanBase' in system && system['bandplanBase'] != '' && typeof system['bandplanBase']!== 'undefined'){
+                system['bandplanBase'] =  round(system['bandplanBase']*1e6);
+              }
+              if ('bandplanHigh' in system && system['bandplanHigh'] != '' && typeof system['bandplanHigh']!== 'undefined'){
+                system['bandplanHigh'] =  round(system['bandplanHigh']*1e6);
+              }
+              if ('bandplanSpacing' in system && system['bandplanSpacing'] != '' && typeof system['bandplanSpacing']!== 'undefined'){
+                system['bandplanSpacing'] =  round(system['bandplanSpacing']*1e6);
+              }
+              if ('bandplanOffset' in system && system['bandplanOffset'] != '' && typeof system['bandplanOffset']!== 'undefined'){
+                system['bandplanOffset'] =  round(system['bandplanOffset']*1e6);
+              }
+            });
+          }
+          if ('sources' in write_contents){
+            write_contents['sources'].forEach(function (source, index) {
+              source['center'] = Math.round(source['center']*1e6);
+              source['rate'] = Math.round(source['rate']*1e6);
+            });
+          }
+          write_contents = JSON.stringify(write_contents,null,4);
           // Create a FileSystemWritableFileStream to write to.
           const writable = await handle.createWritable();
           // Write the contents of the file to the stream.

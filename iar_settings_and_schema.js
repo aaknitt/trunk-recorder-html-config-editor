@@ -272,12 +272,12 @@ editor_config = {
               },
               "type": "array",
               "minItems": 1,
-              "title": "Trunked Control Channel Frequencies (Hz)",
+              "title": "Trunked Control Channel Frequencies (MHz)",
               "description": "Add all Primary and Alternate control channel frequencies for the trunked radio system here.",
               "format": "array",
               "items": {
                 "type": "number",
-                "title": "Control Channel Frequency (Hz)"
+                "title": "Control Channel Frequency (MHz)"
               }
             },
             "voice_channels": {
@@ -291,12 +291,12 @@ editor_config = {
               },
               "type": "array",
               "minItems": 1,
-              "title": "Trunked Voice Channel Frequencies (Hz)",
+              "title": "Trunked Voice Channel Frequencies (MHz)",
               "description":"Add voice channel frequencies from the trunked radio system here. These are not used by trunk-recorder directly, but are used to auto-calculate the RF Source information.  If you are unsure whether a channel is a Voice channel or a Control channel, enter it as Control Channel area above",
               "format": "array",
               "items": {
                 "type": "number",
-                "title": "Voice Channel Frequency (Hz)"
+                "title": "Voice Channel Frequency (MHz)"
               }
             },
             "channels": {
@@ -310,11 +310,11 @@ editor_config = {
                 }
               },
               "type": "array",
-              "title": "Conventional Frequencies (Hz)",
+              "title": "Conventional Frequencies (MHz)",
               "format": "array",
               "items": {
                 "type": "number",
-                "title": "Conventional Frequency (Hz)"
+                "title": "Conventional Frequency (MHz)"
               }
             },
             "channelFile": {
@@ -588,7 +588,7 @@ editor_config = {
               "default": "800_standard"
             },
             "bandplanBase": {
-              "title": "Bandplan Base Frequency (Hz)",
+              "title": "Bandplan Base Frequency (MHz)",
               "type": "number",
               "options": {
                 "dependencies": {
@@ -602,7 +602,7 @@ editor_config = {
               }
             },
             "bandplanHigh": {
-              "title": "Bandplan High Frequency (Hz)",
+              "title": "Bandplan High Frequency (MHz)",
               "type": "number",
               "options": {
                 "dependencies": {
@@ -616,7 +616,7 @@ editor_config = {
               }
             },
             "bandplanSpacing": {
-              "title": "Bandplan Spacing (Hz)",
+              "title": "Bandplan Spacing (MHz)",
               "type": "number",
               "default": 25000,
               "options": {
@@ -631,7 +631,7 @@ editor_config = {
               }
             },
             "bandplanOffset": {
-              "title": "Bandplan Offset",
+              "title": "Bandplan Offset (MHz)",
               "type": "number",
               "options": {
                 "dependencies": {
@@ -726,11 +726,11 @@ editor_config = {
               "default": false,
             },
             "center": {
-              "title": "Center frequency of source (Hz)",
+              "title": "Center frequency of source (MHz)",
               "type": "number"
             },
             "rate": {
-              "title": "SDR Sampling Rate (Hz)",
+              "title": "SDR Sampling Rate (MHz)",
               "type": "number",
               "default":2400000
             },
