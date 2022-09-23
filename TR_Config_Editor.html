@@ -38,6 +38,11 @@
                   all_freqs_array = all_freqs_array.concat(Math.round(freq*1e6));
                 });
               }
+              if (item.channels != ''){
+                item.channels.forEach(function(freq,index){
+                  all_freqs_array = all_freqs_array.concat(Math.round(freq*1e6));
+                });
+              }
             });
             all_freqs_array = [...new Set(all_freqs_array)];  //remove duplicates
             all_freqs_array = all_freqs_array.sort(function (a, b) {  return a - b;  });  //sort numerically

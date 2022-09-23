@@ -246,10 +246,6 @@ editor_config = {
             "talkgroupsFile": {
               "title": "Talkgroups CSV Filename",
               "type": "string",
-              "watch": {
-                "sname": "sys_item.shortName"
-              },
-              "template": "{{sname}}.csv",
               "options": {
                 "dependencies": {
                   "showAdvanced": false
@@ -696,7 +692,7 @@ editor_config = {
       },
       "source_autogen_button":{
         "type": "button",
-          "title": "Auto Generate RF Source Parameters From System Channels",
+          "title": "Auto Generate RTL-SDR Source Parameters From System Channels",
           "options": {
             "button": {
               "action": "autoGenSourceParams",
