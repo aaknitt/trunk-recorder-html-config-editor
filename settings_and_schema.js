@@ -33,17 +33,33 @@ editor_config = {
           "analog",
           "digital"
         ],
-        "default": "digital"
+        "default": "digital",
+        "options": {
+          "dependencies": {
+            "showAdvanced": true
+          }
+        }
       },
       "captureDir": {
         "title": "Audio Capture Directory Path",
-        "type": "string"
+        "type": "string",
+        "default": "/home/pi/recordings",
+        "options": {
+          "dependencies": {
+            "showAdvanced": true
+          }
+        }
       },
       "logFile": {
         "title": "Save Log File",
         "type": "boolean",
         "format":"checkbox",
-        "default": false
+        "default": true,
+        "options": {
+          "dependencies": {
+            "showAdvanced": true
+          }
+        }
       },
       "frequencyFormat": {
         "title": "Frequency display format",
@@ -63,7 +79,7 @@ editor_config = {
             "showAdvanced": true
           }
         },
-        "default": "exp"
+        "default": "mhz"
       },
       "callTimeout": {
         "type": "number",
@@ -124,17 +140,27 @@ editor_config = {
           "error",
           "fatal"
         ],
-        "default": "info"
+        "default": "info",
+        "options": {
+          "dependencies": {
+            "showAdvanced": true
+          }
+        }
       },
       "uploadServer": {
         "title": "OpenMHz upload URL",
-        "type": "string"
+        "type": "string",
+        "options": {
+          "dependencies": {
+            "showAdvanced": true
+          }
+        }
       },
       "debugRecorder": {
         "title": "Attach debug recorder to each source",
         "type": "boolean",
         "format":"checkbox",
-        "default": true,
+        "default": false,
         "options": {
           "dependencies": {
             "showAdvanced": true
@@ -172,91 +198,26 @@ editor_config = {
           }
         }
       },
-      "sources": {
-        "title": "RF Sources",
-        "type": "array",
-        "format": "array",
-        "items": {
-          "type": "object",
-          "title": "Source",
-          "properties": {
-            "center": {
-              "title": "Center frequency of source (Hz)",
-              "type": "number"
-            },
-            "rate": {
-              "title": "SDR Sampling Rate (Hz)",
-              "type": "number"
-            },
-            "error": {
-              "title": "SDR Tuning Error (Hz)",
-              "type": "number",
-              "default": 0,
-              "options": {
-                "dependencies": {
-                  "showAdvanced": true
-                }
-              }
-            },
-            "gain": {
-              "title": "SDR RF Gain (dB)",
-              "type": "number"
-            },
-            "digitalRecorders": {
-              "title": "Number of Digital Recorders to allocate to this Source",
-              "type": "number"
-            },
-            "analogRecorders": {
-              "title": "Number of Analog Recorders to allocate to this Source",
-              "type": "number"
-            },
-            "driver": {
-              "title": "GNU Radio Driver",
-              "type": "string",
-              "enum": [
-                "usrp",
-                "osmosdr"
-              ],
-              "default": "osmosdr"
-            },
-            "device": {
-              "title": "OsmoSDR device name or serial number",
-              "type": "string"
-            },
-            "ppm": {
-              "title": "SDR Tuning Error (PPM)",
-              "type": "number",
-              "default": 0,
-              "options": {
-                "dependencies": {
-                  "showAdvanced": true
-                }
-              }
-            },
-            "agc": {
-              "title": "Use SDR Automatic Gain Control (AGC)",
-              "type": "boolean",
-              "format":"checkbox",
-              "default": false,
-              "options": {
-                "dependencies": {
-                  "showAdvanced": true
-                }
-              }
-            }
-          }
-        }
-      },
       "systems": {
         "title": "Radio Systems",
         "type": "array",
+        "minItems": 1,
         "format": "array",
         "items": {
           "type": "object",
           "title": "System",
+          "id": "sys_item",
           "properties": {
+            "showAdvanced": {
+              "title": "Show Advanced System Settings",
+              "type": "boolean",
+              "format":"checkbox",
+              "default": false,
+            },
             "shortName": {
-              "type": "string"
+              "title": "System Name",
+              "type": "string",
+              "default": "TrunkedSystem"
             },
             "type": {
               "title": "System Type",
@@ -268,7 +229,37 @@ editor_config = {
                 "conventionalDMR",
                 "conventionalP25"
               ],
-              "default": "p25"
+              "default": "p25",
+              "options": {
+                "enum_titles": [
+                  "SmartNet Trunking",
+                  "P25 Trunking",
+                  "Analog Conventional",
+                  "P25 Conventional",
+                  "DMR Conventional"
+                ],
+                "dependencies": {
+                  "showAdvanced": false
+                }
+              },
+            },
+            "iarApiKey": {
+              "title": "IamResponding API Key",
+              "description": "Enter your IamResponding API key for this System from your IamResponding account here",
+              "type": "string"
+            },
+            "talkgroupsFile": {
+              "title": "Talkgroups CSV Filename",
+              "type": "string",
+              "watch": {
+                "sname": "sys_item.shortName"
+              },
+              "template": "{{sname}}.csv",
+              "options": {
+                "dependencies": {
+                  "showAdvanced": true
+                }
+              }
             },
             "control_channels": {
               "options": {
@@ -280,11 +271,32 @@ editor_config = {
                 }
               },
               "type": "array",
-              "title": "Trunked Control Channel Frequencies (Hz)",
+              "minItems": 1,
+              "title": "Trunked Control Channel Frequencies (MHz)",
+              "description": "Add all Primary and Alternate control channel frequencies for the trunked radio system here.",
               "format": "array",
               "items": {
                 "type": "number",
-                "title": "Control Channel Frequency (Hz)"
+                "title": "Control Channel Frequency (MHz)"
+              }
+            },
+            "voice_channels": {
+              "options": {
+                "dependencies": {
+                  "type": [
+                    "smartnet",
+                    "p25"
+                  ]
+                }
+              },
+              "type": "array",
+              "minItems": 1,
+              "title": "Trunked Voice Channel Frequencies (MHz)",
+              "description":"Add voice channel frequencies from the trunked radio system here. These are not used by trunk-recorder directly, but are used to auto-calculate the RF Source information.  If you are unsure whether a channel is a Voice channel or a Control channel, enter it as Control Channel area above",
+              "format": "array",
+              "items": {
+                "type": "number",
+                "title": "Voice Channel Frequency (MHz)"
               }
             },
             "channels": {
@@ -292,17 +304,17 @@ editor_config = {
                 "dependencies": {
                   "type": [
                     "conventional",
-                    "conventinalDMR",
+                    "conventionalDMR",
                     "conventionalP25"
                   ]
                 }
               },
               "type": "array",
-              "title": "Conventional Frequencies (Hz)",
+              "title": "Conventional Frequencies (MHz)",
               "format": "array",
               "items": {
                 "type": "number",
-                "title": "Conventional Frequency (Hz)"
+                "title": "Conventional Frequency (MHz)"
               }
             },
             "channelFile": {
@@ -312,7 +324,7 @@ editor_config = {
                 "dependencies": {
                   "type": [
                     "conventional",
-                    "conventinalDMR",
+                    "conventionalDMR",
                     "conventionalP25"
                   ]
                 }
@@ -335,27 +347,55 @@ editor_config = {
             "squelch": {
               "title": "Squelch",
               "type": "number",
-              "default": -160
-            },
-            "talkgroupsFile": {
-              "title": "Talkgroups CSV Filename",
-              "type": "string"
+              "default": -160,
+              "options": {
+                "dependencies": {
+                  "showAdvanced": true,
+                  "type": [
+                    "conventional",
+                    "conventionalP25",
+                    "conventionalDMR",
+                    "smartnet"
+                  ]
+                }
+              }
             },
             "apiKey": {
               "title": "OpenMHz API Key",
-              "type": "string"
+              "type": "string",
+              "options":{
+                "dependencies": {
+                  "showAdvanced": true
+                }
+              }
             },
             "broadcastifyApiKey": {
               "title": "Broadcastify API Key",
-              "type": "string"
+              "type": "string",
+              "options":{
+                "dependencies": {
+                  "showAdvanced": true
+                }
+              }
             },
             "broadcastifySystemId": {
               "title": "Broadcastify System ID",
-              "type": "number"
+              "type": "number",
+              "options":{
+                "dependencies": {
+                  "showAdvanced": true
+                }
+              }
             },
             "uploadScript": {
               "title": "Upload Script",
-              "type": "string"
+              "type": "string",
+              "default":"uploadSocketSender",
+              "options":{
+                "dependencies": {
+                  "showAdvanced": true
+                }
+              }
             },
             "compressWav": {
               "title": "Compress WAV files to M4A",
@@ -370,13 +410,24 @@ editor_config = {
             },
             "unitScript": {
               "title": "Unit Script",
-              "type": "string"
+              "type": "string",
+              "default":"unitSocketSender",
+              "options": {
+                "dependencies": {
+                  "showAdvanced": true
+                }
+              }
             },
             "audioArchive": {
               "title": "Save Audio Files After Upload",
               "type": "boolean",
               "format":"checkbox",
-              "default": true
+              "default": false,
+              "options": {
+                "dependencies": {
+                  "showAdvanced": true
+                }
+              }
             },
             "transmissionArchive": {
               "title": "Save Individual Transmission Files After Upload",
@@ -403,7 +454,12 @@ editor_config = {
             "analogLevels": {
               "title": "Analog Audio Amplification Level",
               "type": "number",
-              "default": 8
+              "default": 8,
+              "options": {
+                "dependencies": {
+                  "showAdvanced": true
+                }
+              }
             },
             "maxDev": {
               "title": "Analog Max Deviation",
@@ -418,45 +474,85 @@ editor_config = {
             "digitalLevels": {
               "title": "Digital Audio Amplification Level",
               "type": "number",
-              "default": 1
+              "default": 1,
+              "options": {
+                "dependencies": {
+                  "showAdvanced": true
+                }
+              }
             },
             "unitTagsFile": {
               "title": "Unit Tags CSV Filename",
-              "type": "string"
+              "type": "string",
+              "options": {
+                "dependencies": {
+                  "showAdvanced": true
+                }
+              }
             },
             "recordUnknown": {
               "title": "Record Unknown Talkgroups",
               "type": "boolean",
               "format":"checkbox",
-              "default": true
+              "default": false,
+              "options": {
+                "dependencies": {
+                  "showAdvanced": true
+                }
+              }
             },
             "recordUUVCalls": {
               "title": "Record P25 Unit to Unit Calls",
               "type": "boolean",
               "format":"checkbox",
-              "default": true
+              "default": false,
+              "options": {
+                "dependencies": {
+                  "showAdvanced": true
+                }
+              }
             },
             "hideEncrypted": {
               "title": "Hide Encrypted Talkgroup Log Entries",
               "type": "boolean",
               "format":"checkbox",
-              "default": false
+              "default": false,
+              "options": {
+                "dependencies": {
+                  "showAdvanced": true
+                }
+              }
             },
             "hideUnknownTalkgroups": {
               "title": "Hide Unknown Talkgroup Log Entries",
               "type": "boolean",
               "format":"checkbox",
-              "default": false
+              "default": false,
+              "options": {
+                "dependencies": {
+                  "showAdvanced": true
+                }
+              }
             },
             "minDuration": {
               "title": "Minimum Call Duration To Upload and Save (sec)",
               "type": "number",
-              "default": 0
+              "default": 0,
+              "options": {
+                "dependencies": {
+                  "showAdvanced": true
+                }
+              }
             },
             "minTransmissionDuration": {
               "title": "Minimum Transmission Duration To Add To Call",
               "type": "number",
-              "default": 0
+              "default": 0,
+              "options": {
+                "dependencies": {
+                  "showAdvanced": true
+                }
+              }
             },
             "talkgroupDisplayFormat": {
               "title": "Talkgroup ID Display Format",
@@ -466,7 +562,7 @@ editor_config = {
                 "id_tag",
                 "tag_id"
               ],
-              "default": "id",
+              "default": "id_tag",
               "options": {
                 "dependencies": {
                   "showAdvanced": true
@@ -492,7 +588,7 @@ editor_config = {
               "default": "800_standard"
             },
             "bandplanBase": {
-              "title": "Bandplan Base Frequency (Hz)",
+              "title": "Bandplan Base Frequency (MHz)",
               "type": "number",
               "options": {
                 "dependencies": {
@@ -506,7 +602,7 @@ editor_config = {
               }
             },
             "bandplanHigh": {
-              "title": "Bandplan High Frequency (Hz)",
+              "title": "Bandplan High Frequency (MHz)",
               "type": "number",
               "options": {
                 "dependencies": {
@@ -520,7 +616,7 @@ editor_config = {
               }
             },
             "bandplanSpacing": {
-              "title": "Bandplan Spacing (Hz)",
+              "title": "Bandplan Spacing (MHz)",
               "type": "number",
               "default": 25000,
               "options": {
@@ -535,7 +631,7 @@ editor_config = {
               }
             },
             "bandplanOffset": {
-              "title": "Bandplan Offset",
+              "title": "Bandplan Offset (MHz)",
               "type": "number",
               "options": {
                 "dependencies": {
@@ -603,9 +699,126 @@ editor_config = {
           }
         }
       },
+      "source_autogen_button":{
+        "type": "button",
+          "title": "Auto Generate RF Source Parameters From System Channels",
+          "options": {
+            "button": {
+              "action": "autoGenSourceParams",
+              "validated": false
+            }
+          }
+      },
+      "sources": {
+        "title": "RF Sources",
+        "type": "array",
+        "format": "array",
+        "id":"source_item",
+        "minItems": 1,
+        "items": {
+          "type": "object",
+          "title": "Source",
+          "properties": {
+            "showAdvanced": {
+              "title": "Show Advanced RF Source Settings",
+              "type": "boolean",
+              "format": "checkbox",
+              "default": false,
+            },
+            "center": {
+              "title": "Center frequency of source (MHz)",
+              "type": "number"
+            },
+            "rate": {
+              "title": "SDR Sampling Rate (MHz)",
+              "type": "number",
+              "default":2400000
+            },
+            "error": {
+              "title": "SDR Tuning Error (Hz)",
+              "type": "number",
+              "default": 0,
+              "options": {
+                "dependencies": {
+                  "showAdvanced": true
+                }
+              }
+            },
+            "gain": {
+              "title": "SDR RF Gain (dB)",
+              "type": "number",
+              "default":40
+            },
+            "digitalRecorders": {
+              "title": "Number of Digital Recorders to allocate to this Source",
+              "type": "number",
+              "default":5
+            },
+            "analogRecorders": {
+              "title": "Number of Analog Recorders to allocate to this Source",
+              "type": "number",
+              "options": {
+                "dependencies": {
+                  "showAdvanced": true
+                }
+              }
+            },
+            "driver": {
+              "title": "GNU Radio Driver",
+              "type": "string",
+              "enum": [
+                "usrp",
+                "osmosdr"
+              ],
+              "default": "osmosdr",
+              "options": {
+                "dependencies": {
+                  "showAdvanced": false
+                }
+              }
+            },
+            "device": {
+              "title": "OsmoSDR device name or serial number",
+              "type": "string",
+              "default": "rtl=0",
+              "options": {
+                "dependencies": {
+                  "showAdvanced": false
+                }
+              }
+            },
+            "ppm": {
+              "title": "SDR Tuning Error (PPM)",
+              "type": "number",
+              "default": 0,
+              "options": {
+                "dependencies": {
+                  "showAdvanced": true
+                }
+              }
+            },
+            "agc": {
+              "title": "Use SDR Automatic Gain Control (AGC)",
+              "type": "boolean",
+              "format":"checkbox",
+              "default": false,
+              "options": {
+                "dependencies": {
+                  "showAdvanced": true
+                }
+              }
+            }
+          }
+        }
+      },
       "plugins": {
         "title": "trunk-recorder Plugins",
         "type": "array",
+        "options": {
+          "dependencies": {
+            "showAdvanced": true
+          }
+        },
         "items": {
           "title": "Plugin",
           "oneOf": [
