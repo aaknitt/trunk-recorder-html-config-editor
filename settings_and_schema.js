@@ -36,17 +36,17 @@ editor_config = {
         "default": "digital",
         "options": {
           "dependencies": {
-            "showAdvanced": true
+            "showAdvanced": false
           }
         }
       },
       "captureDir": {
         "title": "Audio Capture Directory Path",
         "type": "string",
-        "default": "/home/pi/recordings",
+        "default": "",
         "options": {
           "dependencies": {
-            "showAdvanced": true
+            "showAdvanced": false
           }
         }
       },
@@ -57,7 +57,7 @@ editor_config = {
         "default": true,
         "options": {
           "dependencies": {
-            "showAdvanced": true
+            "showAdvanced": false
           }
         }
       },
@@ -143,7 +143,7 @@ editor_config = {
         "default": "info",
         "options": {
           "dependencies": {
-            "showAdvanced": true
+            "showAdvanced": false
           }
         }
       },
@@ -152,7 +152,7 @@ editor_config = {
         "type": "string",
         "options": {
           "dependencies": {
-            "showAdvanced": true
+            "showAdvanced": false
           }
         }
       },
@@ -160,7 +160,7 @@ editor_config = {
         "title": "Attach debug recorder to each source",
         "type": "boolean",
         "format":"checkbox",
-        "default": false,
+        "default": true,
         "options": {
           "dependencies": {
             "showAdvanced": true
@@ -243,11 +243,6 @@ editor_config = {
                 }
               },
             },
-            "iarApiKey": {
-              "title": "IamResponding API Key",
-              "description": "Enter your IamResponding API key for this System from your IamResponding account here",
-              "type": "string"
-            },
             "talkgroupsFile": {
               "title": "Talkgroups CSV Filename",
               "type": "string",
@@ -257,7 +252,7 @@ editor_config = {
               "template": "{{sname}}.csv",
               "options": {
                 "dependencies": {
-                  "showAdvanced": true
+                  "showAdvanced": false
                 }
               }
             },
@@ -350,7 +345,7 @@ editor_config = {
               "default": -160,
               "options": {
                 "dependencies": {
-                  "showAdvanced": true,
+                  "showAdvanced": false,
                   "type": [
                     "conventional",
                     "conventionalP25",
@@ -365,7 +360,7 @@ editor_config = {
               "type": "string",
               "options":{
                 "dependencies": {
-                  "showAdvanced": true
+                  "showAdvanced": false
                 }
               }
             },
@@ -374,7 +369,7 @@ editor_config = {
               "type": "string",
               "options":{
                 "dependencies": {
-                  "showAdvanced": true
+                  "showAdvanced": false
                 }
               }
             },
@@ -383,7 +378,7 @@ editor_config = {
               "type": "number",
               "options":{
                 "dependencies": {
-                  "showAdvanced": true
+                  "showAdvanced": false
                 }
               }
             },
@@ -393,7 +388,7 @@ editor_config = {
               "default":"uploadSocketSender",
               "options":{
                 "dependencies": {
-                  "showAdvanced": true
+                  "showAdvanced": false
                 }
               }
             },
@@ -422,10 +417,10 @@ editor_config = {
               "title": "Save Audio Files After Upload",
               "type": "boolean",
               "format":"checkbox",
-              "default": false,
+              "default": true,
               "options": {
                 "dependencies": {
-                  "showAdvanced": true
+                  "showAdvanced": false
                 }
               }
             },
@@ -444,10 +439,10 @@ editor_config = {
               "title": "Save call JSON data after upload",
               "type": "boolean",
               "format":"checkbox",
-              "default": false,
+              "default": true,
               "options": {
                 "dependencies": {
-                  "showAdvanced": true
+                  "showAdvanced": false
                 }
               }
             },
@@ -457,7 +452,7 @@ editor_config = {
               "default": 8,
               "options": {
                 "dependencies": {
-                  "showAdvanced": true
+                  "showAdvanced": false
                 }
               }
             },
@@ -467,7 +462,7 @@ editor_config = {
               "default": 4000,
               "options": {
                 "dependencies": {
-                  "showAdvanced": true
+                  "showAdvanced": false
                 }
               }
             },
@@ -477,7 +472,7 @@ editor_config = {
               "default": 1,
               "options": {
                 "dependencies": {
-                  "showAdvanced": true
+                  "showAdvanced": false
                 }
               }
             },
@@ -486,7 +481,7 @@ editor_config = {
               "type": "string",
               "options": {
                 "dependencies": {
-                  "showAdvanced": true
+                  "showAdvanced": false
                 }
               }
             },
@@ -494,10 +489,10 @@ editor_config = {
               "title": "Record Unknown Talkgroups",
               "type": "boolean",
               "format":"checkbox",
-              "default": false,
+              "default": true,
               "options": {
                 "dependencies": {
-                  "showAdvanced": true
+                  "showAdvanced": false
                 }
               }
             },
@@ -752,14 +747,14 @@ editor_config = {
             "digitalRecorders": {
               "title": "Number of Digital Recorders to allocate to this Source",
               "type": "number",
-              "default":5
+              "default":2
             },
             "analogRecorders": {
               "title": "Number of Analog Recorders to allocate to this Source",
               "type": "number",
               "options": {
                 "dependencies": {
-                  "showAdvanced": true
+                  "showAdvanced": false
                 }
               }
             },
@@ -793,7 +788,7 @@ editor_config = {
               "default": 0,
               "options": {
                 "dependencies": {
-                  "showAdvanced": true
+                  "showAdvanced": false
                 }
               }
             },
@@ -816,7 +811,7 @@ editor_config = {
         "type": "array",
         "options": {
           "dependencies": {
-            "showAdvanced": true
+            "showAdvanced": false
           }
         },
         "items": {
