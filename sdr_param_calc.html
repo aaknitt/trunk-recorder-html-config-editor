@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<!-- saved from url=(0052)https://json-editor.github.io/json-editor/basic.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>trunk-recorder config editor</title>
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+    <script type="text/javascript" src="sdr_calcs.js"></script>
+    <script type="text/javascript">
+      function calc_all(){
+        freqs = document.getElementById("freqs").value.split(",");
+        sdr_bw = parseFloat(document.getElementById("sdr_bw").value);
+        ch_bw = parseFloat(document.getElementById("ch_bw").value)*.001;  //kHz to MHz
+        for(i=0; i < freqs.length; i++){
+          freqs[i] = parseFloat(freqs[i]);
+        }
+        calc_sdr_params(freqs,sdr_bw,ch_bw);
+      }
+    </script>
+  <style id="theme-default"></style><style id="theme-html"></style></head>
+  <style>
+      .container {
+        max-width:960px;
+        margin: 0 auto
+      }
+  </style>
+  <body>
+    <h3>SDR Center Frequency & Bandwidth Calculator</h3>
+    <div>Comma separated list of frequencies (MHz):</div>
+    <textarea id="freqs" rows=5 cols=50 >154.25,453.985,851.2125,853.4125,858.6</textarea>
+    <br>
+    <input id="sdr_bw" value="2.4">Max SDR Sampling Rate (MHz)</input>
+    <br>
+    <input id="ch_bw" value="25">Max Channel Bandwidth (kHz)</input>
+    <br>
+    <button onclick="calc_all()">Calculate</button>
+    <div id="output"></div>
+</body></html>
