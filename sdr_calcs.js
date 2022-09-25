@@ -135,20 +135,6 @@ function calc_sdr_params(all_freqs_array,sdr_bw,channel_bw){
 	  radio_matrixes[i]["sample_rate"] = radio_sample_range;
 	});
 	console.log(radio_matrixes);
-	document.getElementById("output").innerHTML = groups.length + " SDRs will be needed <br>";
-	for (i=0;i<groups.length;i++){
-	  document.getElementById("output").innerHTML += "<br>";
-	  document.getElementById("output").innerHTML += "SDR " + (i+1) + " params: <br>";
-	  document.getElementById("output").innerHTML += "Center Frequency: " + radio_matrixes[i]["center"] + " MHz <br>";
-	  document.getElementById("output").innerHTML += "Sampling Rate: " + radio_matrixes[i]["sample_rate"] + " MHz <br>";
-	  if (radio_matrixes[i]["num_channels"] == 1){
-	    document.getElementById("output").innerHTML += "Covers 1 frequency: <br>";
-	  }
-	  else{
-		  document.getElementById("output").innerHTML += "Covers " + radio_matrixes[i]["num_channels"] + " frequencies: <br>";
-	  }
-	  for (k=0;k<radio_matrixes[i]["channels"].length;k++){
-		  document.getElementById("output").innerHTML += radio_matrixes[i]["channels"][k] + " MHz <br>";
-	  }
-	}
+	return radio_matrixes;
+
 }

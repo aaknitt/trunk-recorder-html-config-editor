@@ -13,7 +13,23 @@
         for(i=0; i < freqs.length; i++){
           freqs[i] = parseFloat(freqs[i]);
         }
-        calc_sdr_params(freqs,sdr_bw,ch_bw);
+        radio_matrixes = calc_sdr_params(freqs,sdr_bw,ch_bw);
+        document.getElementById("output").innerHTML = groups.length + " SDRs will be needed <br>";
+        for (i=0;i<groups.length;i++){
+          document.getElementById("output").innerHTML += "<br>";
+          document.getElementById("output").innerHTML += "SDR " + (i+1) + " params: <br>";
+          document.getElementById("output").innerHTML += "Center Frequency: " + radio_matrixes[i]["center"] + " MHz <br>";
+          document.getElementById("output").innerHTML += "Sampling Rate: " + radio_matrixes[i]["sample_rate"] + " MHz <br>";
+          if (radio_matrixes[i]["num_channels"] == 1){
+            document.getElementById("output").innerHTML += "Covers 1 frequency: <br>";
+          }
+          else{
+            document.getElementById("output").innerHTML += "Covers " + radio_matrixes[i]["num_channels"] + " frequencies: <br>";
+          }
+          for (k=0;k<radio_matrixes[i]["channels"].length;k++){
+            document.getElementById("output").innerHTML += radio_matrixes[i]["channels"][k] + " MHz <br>";
+          }
+        }
       }
     </script>
   <style id="theme-default"></style><style id="theme-html"></style></head>
