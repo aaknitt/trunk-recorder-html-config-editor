@@ -338,7 +338,6 @@ editor_config = {
               "default": -160,
               "options": {
                 "dependencies": {
-                  ,
                   "type": [
                     "conventional",
                     "conventionalP25",
