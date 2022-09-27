@@ -21,9 +21,6 @@ editor_config = {
         "type": "number",
         "default": 2,
         "options": {
-          "dependencies": {
-            "showAdvanced": true
-          }
         }
       },
       "defaultMode": {
@@ -36,7 +33,7 @@ editor_config = {
         "default": "digital",
         "options": {
           "dependencies": {
-            "showAdvanced": false
+            
           }
         }
       },
@@ -46,7 +43,7 @@ editor_config = {
         "default": "",
         "options": {
           "dependencies": {
-            "showAdvanced": false
+            
           }
         }
       },
@@ -57,7 +54,7 @@ editor_config = {
         "default": true,
         "options": {
           "dependencies": {
-            "showAdvanced": false
+            
           }
         }
       },
@@ -143,7 +140,7 @@ editor_config = {
         "default": "info",
         "options": {
           "dependencies": {
-            "showAdvanced": false
+            
           }
         }
       },
@@ -152,7 +149,7 @@ editor_config = {
         "type": "string",
         "options": {
           "dependencies": {
-            "showAdvanced": false
+            
           }
         }
       },
@@ -239,7 +236,7 @@ editor_config = {
                   "DMR Conventional"
                 ],
                 "dependencies": {
-                  "showAdvanced": false
+                  
                 }
               },
             },
@@ -248,7 +245,7 @@ editor_config = {
               "type": "string",
               "options": {
                 "dependencies": {
-                  "showAdvanced": false
+                  
                 }
               }
             },
@@ -341,7 +338,7 @@ editor_config = {
               "default": -160,
               "options": {
                 "dependencies": {
-                  "showAdvanced": false,
+                  ,
                   "type": [
                     "conventional",
                     "conventionalP25",
@@ -356,7 +353,7 @@ editor_config = {
               "type": "string",
               "options":{
                 "dependencies": {
-                  "showAdvanced": false
+                  
                 }
               }
             },
@@ -365,7 +362,7 @@ editor_config = {
               "type": "string",
               "options":{
                 "dependencies": {
-                  "showAdvanced": false
+                  
                 }
               }
             },
@@ -374,7 +371,7 @@ editor_config = {
               "type": "number",
               "options":{
                 "dependencies": {
-                  "showAdvanced": false
+                  
                 }
               }
             },
@@ -384,7 +381,7 @@ editor_config = {
               "default":"uploadSocketSender",
               "options":{
                 "dependencies": {
-                  "showAdvanced": false
+                  
                 }
               }
             },
@@ -416,7 +413,7 @@ editor_config = {
               "default": true,
               "options": {
                 "dependencies": {
-                  "showAdvanced": false
+                  
                 }
               }
             },
@@ -438,7 +435,7 @@ editor_config = {
               "default": true,
               "options": {
                 "dependencies": {
-                  "showAdvanced": false
+                  
                 }
               }
             },
@@ -448,7 +445,7 @@ editor_config = {
               "default": 8,
               "options": {
                 "dependencies": {
-                  "showAdvanced": false
+                  
                 }
               }
             },
@@ -458,7 +455,7 @@ editor_config = {
               "default": 4000,
               "options": {
                 "dependencies": {
-                  "showAdvanced": false
+                  
                 }
               }
             },
@@ -468,7 +465,7 @@ editor_config = {
               "default": 1,
               "options": {
                 "dependencies": {
-                  "showAdvanced": false
+                  
                 }
               }
             },
@@ -477,7 +474,7 @@ editor_config = {
               "type": "string",
               "options": {
                 "dependencies": {
-                  "showAdvanced": false
+                  
                 }
               }
             },
@@ -488,7 +485,7 @@ editor_config = {
               "default": true,
               "options": {
                 "dependencies": {
-                  "showAdvanced": false
+                  
                 }
               }
             },
@@ -750,7 +747,7 @@ editor_config = {
               "type": "number",
               "options": {
                 "dependencies": {
-                  "showAdvanced": false
+                  
                 }
               }
             },
@@ -764,7 +761,7 @@ editor_config = {
               "default": "osmosdr",
               "options": {
                 "dependencies": {
-                  "showAdvanced": false
+                  
                 }
               }
             },
@@ -774,7 +771,7 @@ editor_config = {
               "default": "rtl=0",
               "options": {
                 "dependencies": {
-                  "showAdvanced": false
+                  
                 }
               }
             },
@@ -784,7 +781,7 @@ editor_config = {
               "default": 0,
               "options": {
                 "dependencies": {
-                  "showAdvanced": false
+                  
                 }
               }
             },
@@ -807,7 +804,7 @@ editor_config = {
         "type": "array",
         "options": {
           "dependencies": {
-            "showAdvanced": false
+            
           }
         },
         "items": {
