@@ -74,9 +74,26 @@
 
       // Initialize the editor with a JSON schema
       var editor = new JSONEditor(document.getElementById('editor_holder'),editor_config);
-
+      function show_hide_advanced(){
+	    props = editor.editors;
+	    for (const [key, value] of Object.entries(props)) {
+		    if (value['original_schema']['advanced'] == true) {
+			  value.hidden = false;
+			  if (editor.editors.root.editors.showAdvanced.getValue() == true){
+			    value.container.style.display ='block';
+			  }
+			  else{
+			    value.container.style.display ='none';
+			  }
+		    }
+		}
+	  }
       editor.on('ready',() => {
         // Now the api methods will be available
+		show_hide_advanced();
+		editor.watch('root.showAdvanced',() => {
+		  show_hide_advanced();
+	    });
       });
 
       var previous_source_array_length = 0;
@@ -93,6 +110,8 @@
           previous_source_array_length++;
         }
       });
+	  
+
 
       let fileHandle;
       document.getElementById('buttonOpen').addEventListener('click', async () => {
