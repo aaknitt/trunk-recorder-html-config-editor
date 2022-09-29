@@ -62,7 +62,7 @@
               editor.getEditor('root.sources.' + i + '.rate').setValue(radio_matrixes[i]['sample_rate']);
               editor.getEditor('root.sources.' + i + '.center').setValue(radio_matrixes[i]['center']);
               editor.getEditor('root.sources.' + i + '.device').setValue('rtl='+i.toString());
-              editor.getEditor('root.sources.' + i + '.digitalRecorders').setValue(radio_matrixes[i]['num_channels']);
+              editor.getEditor('root.sources.' + i + '.digitalRecorders').setValue(Math.min(radio_matrixes[i]['num_channels'],4));
               //source_array.push(source_dict);
             }
             //console.log(source_array);
